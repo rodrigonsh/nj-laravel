@@ -17,6 +17,7 @@ Route::prefix('v1')->group( function()
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group( function()
 {
+    Route::post('letMeIn', [FBStuff::class, 'letMeIn']);
     Route::post('updateProfile', [FBStuff::class, 'updateProfile']);
     Route::post('updatePhoto', [FBStuff::class, 'updatePhoto']);
     Route::post('setTheme', [FBStuff::class, 'setTheme']);
@@ -24,4 +25,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group( function()
     Route::post('newMessage', [FBStuff::class, 'newMessage']);
     Route::post('sendFCMToken', [FBStuff::class, 'sendFCMToken']);
     Route::post('requestHelp', [LoveSOS::class, 'requestHelp']);
+
+    // get help request from uuid
+    Route::get('getHelpRequest/{uuid}', [LoveSOS::class, 'getHelpRequest']);
+
 });

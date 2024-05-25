@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('help_request', function (Blueprint $table) {
+        Schema::create('help_requests', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
             $table->foreignId('user_id')->constrained();
-            $table->string('need');
-            $table->string('confession');
             $table->foreignId('helper_1')->nullable()->constrained('users');
             $table->foreignId('helper_2')->nullable()->constrained('users');
+            $table->string('need');
+            $table->text('confession');
             $table->boolean('is_resolved')->default(false);
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();

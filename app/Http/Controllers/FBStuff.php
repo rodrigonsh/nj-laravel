@@ -63,6 +63,15 @@ class FBStuff extends Controller
 
     }
 
+    // QUANDO O CARA PASSAR PELA PORTA
+    public function letMeIn(FBAuth $auth, Request $r)
+    {
+        $user = $r->user();
+        $user->lastdoor = (int) $r->input('door');
+        $user->save();
+        return 'ok';
+    }
+
     public function updateProfile(Auth $auth, Request $r)
     {
 

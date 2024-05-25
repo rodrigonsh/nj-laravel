@@ -17,14 +17,15 @@ class RequestHelp extends Notification
 {
     use Queueable;
 
-    private $uuid;
+    private string $uuid;
 
     /**
      * Create a new notification instance.
      */
     public function __construct(HelpRequest $req)
     {
-        $this->uuid = $req->uuid;
+        $this->uuid = (string) $req->uuid;
+        //Log::debug('RequestHelp constructor', ['uuid' => $this->uuid]);
     }
 
     /**
@@ -39,18 +40,13 @@ class RequestHelp extends Notification
 
     public function toFcm($notifiable): FcmMessage
     {
+        Log::debug('RequestHelp toFcm', ['uuid' => $this->uuid]);
         return (new FcmMessage(notification: new FcmNotification(
                 title: 'Alguém precisa de ajuda',
                 body: 'Você pode ajudar alguém?',
-                image: 'http://example.com/url-to-image-here.png'
             )))
-            ->data(['need' => $this->need, 'confession' => $this->confession])
-            // add link
-            ->custom([
-                'fcm_options' => [
-                    'link' => 'http://localhost:8100/i-want-to-help/'+$this->uuid
-                ],
-            ]);
+            ->data(['type' => 'help-request', 'uuid' => $this->uuid])
+            ;
             
     }
 
@@ -62,8 +58,7 @@ class RequestHelp extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'need' => $this->need,
-            'confession' => $this->confession,
+            'uuid' => $this->uuid,
             'title' => 'Alguém precisa de ajuda',
             'body' => 'Você pode ajudar alguém?',
             'image' => 'http://example.com/url-to-image-here.png'

@@ -24,10 +24,10 @@ class DeleteExpiredNotificationTokens
     {
         $report = Arr::get($event->data, 'report');
 
+        $target = $report->target();
+
         Log::info('DeleteExpiredNotificationTokens: '.json_encode($event));
-
-        /*$target = $report->target();
-
+        /*
         $event->notifiable->notificationTokens()
             ->where('push_token', $target->value())
             ->delete();*/

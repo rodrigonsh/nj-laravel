@@ -86,16 +86,24 @@ class LoveSOS extends Controller
         $req->need = $need;
         $req->confession = $confession;
         $req->user_id = $user->id;
-        $req->uuid = Str::uuid();
+        $req->uuid = (string) Str::uuid();
         // expires in 1 week?
         $req->expires_at = now()->addWeek();
         $req->save();
 
         foreach ($users as $user) {
-            Log::info('sending help request for ' . $user->name);
+            Log::info('sending help request to ' . $user->name);
             $user->notify(new RequestHelp($req));
         }
 
         return 'help on the way';
     }
+
+    public function getHelpRequest(Request $request, $uuid)
+    {
+        $req = HelpRequest::where('uuid', $uuid)->with('user')->first();
+
+        return $req;
+    }
+
 }
