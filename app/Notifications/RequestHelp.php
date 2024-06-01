@@ -41,11 +41,20 @@ class RequestHelp extends Notification
     public function toFcm($notifiable): FcmMessage
     {
         Log::debug('RequestHelp toFcm', ['uuid' => $this->uuid]);
+
+        // get users last door
+        $user = auth()->user();
+        $lastDoor = $user->lastdoor;
+
         return (new FcmMessage(notification: new FcmNotification(
                 title: 'Alguém precisa de ajuda',
                 body: 'Você pode ajudar alguém?',
             )))
-            ->data(['type' => 'help-request', 'uuid' => $this->uuid])
+            ->data([
+                'type' => 'help-request', 
+                'uuid' => $this->uuid,
+                'lastDoor' => $lastDoor,
+                ])
             ;
             
     }
@@ -61,7 +70,7 @@ class RequestHelp extends Notification
             'uuid' => $this->uuid,
             'title' => 'Alguém precisa de ajuda',
             'body' => 'Você pode ajudar alguém?',
-            'image' => 'http://example.com/url-to-image-here.png'
+            'image' => '/images/logo.png',
         ];
     }
 }
