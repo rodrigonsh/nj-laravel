@@ -29,4 +29,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group( function()
     // get help request from uuid
     Route::get('getHelpRequest/{uuid}', [LoveSOS::class, 'getHelpRequest']);
 
+    // volunteer
+    Route::post('volunteer', [LoveSOS::class, 'volunteer']);
+
 });

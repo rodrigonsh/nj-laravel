@@ -7,7 +7,11 @@ use GPBMetadata\Google\Api\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Kreait\Firebase\Messaging\CloudMessage;
+
 use App\Notifications\RequestHelp;
+use App\Notifications\HelpOnTheWay;
+use App\Notifications\MeetYourPartner;
+
 use Illuminate\Support\Facades\Log;
 
 use App\Models\HelpRequest;
@@ -104,6 +108,45 @@ class LoveSOS extends Controller
         $req = HelpRequest::where('uuid', $uuid)->with('user')->first();
 
         return $req;
+    }
+
+
+    public function volunteer(Request $request)
+    {
+        $uuid = $request->get('uuid');
+        $req = HelpRequest::where('uuid', $uuid)->first();
+
+        if (!$req) {
+            return abort(404, 'help request not found');
+        }
+
+        if ($req->helper_1 != null && $req->helper_2 != null ) {
+            return ['status'=> 'noneed', 'msg' => 'all helpers already volunteered'];
+        }
+
+        if ( $req->helper_1 == null ) $request->user()->id;
+        else $req->helper_2 = $request->user()->id;
+
+        $req->save();
+
+        if ($req->helper_1 != null && $req->helper_2 != null) {
+
+            // send notification to users
+
+            // requester
+            $req->user->notify(new HelpOnTheWay($req));
+
+            // helper_1
+            $helper_1 = User::find($req->helper_1);
+            $helper_1->notify(new MeetYourPartner($req));
+
+            // helper_2
+            $helper_2 = User::find($req->helper_2);
+            $helper_2->notify(new MeetYourPartner($req));
+
+        }
+
+        return ['status'=>'ok', 'msg' => 'volunteered'];
     }
 
 }
