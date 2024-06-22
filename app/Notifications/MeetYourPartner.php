@@ -39,7 +39,7 @@ class MeetYourPartner extends Notification
 
   public function toFcm($notifiable): FcmMessage
   {
-    Log::debug('MeetYourPartner toFcm', ['uuid' => $this->uuid]);
+    //Log::debug('MeetYourPartner toFcm', ['uuid' => $this->uuid]);
 
     return (new FcmMessage(notification: new FcmNotification(
       title: 'Conheça seu parceiro!',
@@ -61,6 +61,7 @@ class MeetYourPartner extends Notification
     return [
       'uuid' => $this->uuid,
       'title' => 'Conheça seu parceiro!',
+      'type' => 'meet-your-partner',
       'body' => 'Você foi conectado com alguém para ajudar!',
       'image' => '/images/logo.png',
     ];

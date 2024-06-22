@@ -105,15 +105,24 @@ class LoveSOS extends Controller
 
     public function getHelpRequest(Request $request, $uuid)
     {
+        $user = $request->user();
+
         $req = HelpRequest::where('uuid', $uuid)->with('user')->first();
+
+        // add partner
+        if ($req->helper_1 == $user->id) {
+            $req->partner = User::find($req->helper_2);
+        }
+        if ($req->helper_2 == $user->id) {
+            $req->partner = User::find($req->helper_1);
+        }
 
         return $req;
     }
 
 
-    public function volunteer(Request $request)
+    public function volunteer(Request $request, $uuid)
     {
-        $uuid = $request->get('uuid');
         $req = HelpRequest::where('uuid', $uuid)->first();
 
         if (!$req) {

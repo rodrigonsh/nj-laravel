@@ -30,6 +30,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group( function()
     Route::get('getHelpRequest/{uuid}', [LoveSOS::class, 'getHelpRequest']);
 
     // volunteer
-    Route::post('volunteer', [LoveSOS::class, 'volunteer']);
+    Route::get('volunteer/{uuid}', [LoveSOS::class, 'volunteer']);
 
 });

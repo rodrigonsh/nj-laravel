@@ -40,7 +40,7 @@ class HelpOnTheWay extends Notification
 
   public function toFcm($notifiable): FcmMessage
   {
-    Log::debug('HelpOnTheWay toFcm', ['uuid' => $this->uuid]);
+    //Log::debug('HelpOnTheWay toFcm', ['uuid' => $this->uuid]);
 
     return (new FcmMessage(notification: new FcmNotification(
       title: 'Sua ajuda está a caminho!',
@@ -61,6 +61,7 @@ class HelpOnTheWay extends Notification
   {
     return [
       'uuid' => $this->uuid,
+      'type' => 'help-on-the-way',
       'title' => 'Sua ajuda está a caminho!',
       'body' => 'Alguém está vindo te ajudar!',
       'image' => '/images/logo.png',
