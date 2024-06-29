@@ -63,6 +63,8 @@ class LoveSOS extends Controller
             ->where('lon', '>', $lon - 0.1)
             ->where('lon', '<', $lon + 0.1)
             ->where('fcm_token', '!=', null)
+            // que nao seja o proprio usuario
+            ->where('id', '!=', $user->id)
             ->get();
 
             // isso ´é um exemplo de como fazer isso

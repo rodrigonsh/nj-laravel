@@ -48,7 +48,7 @@ class RequestHelp extends Notification
 
         return (new FcmMessage(notification: new FcmNotification(
                 title: 'Alguém precisa de ajuda',
-                body: 'Você pode ajudar alguém?',
+                body: 'Você pode ajudar com '.$user->need.'?',
             )))
             ->data([
                 'type' => 'help-request', 
