@@ -25,7 +25,11 @@ class FBStuff extends Controller
         {
             Auth::login($user, true);
             // Considerar no futuro o update de dados do usuário
-            return ['token' => $user->createToken('token')->plainTextToken];
+            return 
+            [
+                'token' => $user->createToken('token')->plainTextToken,
+                'user' => $user
+            ];
         }
         else
         {
@@ -59,7 +63,11 @@ class FBStuff extends Controller
         $user->save();
 
         Auth::login($user, true);
-        return ['token' => $user->createToken('token')->plainTextToken];
+        return 
+        [
+            'token' => $user->createToken('token')->plainTextToken,
+            'user' => $user
+        ];
 
     }
 
