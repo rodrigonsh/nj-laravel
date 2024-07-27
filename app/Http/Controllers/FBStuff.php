@@ -24,7 +24,32 @@ class FBStuff extends Controller
         if ( $user )
         {
             Auth::login($user, true);
-            // Considerar no futuro o update de dados do usuário
+            
+            $ignore = [
+                '_userToken',
+                'uid', 
+                'name',
+                'cpf',
+                'phoneNumber', 
+                'created_at',
+                'email_verified_at', 
+                'email', 
+                'photoURL', 
+                'fcm_token', 
+                'lastdoor'
+            ];
+
+            $data = $r->all();
+            foreach($data as $key => $value)
+            {
+                if ( !in_array($key, $ignore) )
+                {
+                    $user->$key = $value;
+                }
+            }
+
+            $user->save();
+
             return 
             [
                 'token' => $user->createToken('token')->plainTextToken,
@@ -59,6 +84,8 @@ class FBStuff extends Controller
 
         $user = new User();
         $user->fill($data);
+        $user->name = $data['name'];
+        $user->cpf = $data['cpf'];
         $user->familySize = json_encode($user->familySize);
         $user->save();
 
