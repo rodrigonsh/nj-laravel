@@ -135,8 +135,9 @@ class LoveSOS extends Controller
             return ['status'=> 'noneed', 'msg' => 'all helpers already volunteered'];
         }
 
-        if ( $req->helper_1 == null ) $request->user()->id;
-        else $req->helper_2 = $request->user()->id;
+        // só por garantia
+        if ( $req->helper_1 == null ) $req->helper_1 = $request->user()->id;
+        if ( $req->helper_2 == null && $req->helper_1 != $request->user()->id ) $req->helper_2 = $request->user()->id;
 
         $req->save();
 

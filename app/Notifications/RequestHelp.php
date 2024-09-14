@@ -51,7 +51,7 @@ class RequestHelp extends Notification
                 body: 'Você pode ajudar com '.$user->need.'?',
             )))
             ->data([
-                'type' => 'help-request', 
+                'type' => 'i-want-to-help',
                 'uuid' => $this->uuid,
                 'lastDoor' => $lastDoor,
                 ])
